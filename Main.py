@@ -1,7 +1,7 @@
 #Main.py
 
 import csv
-from Utility_2 import filter_movies_by_genre, sort_movies_by_rating, sort_movies_by_date
+from Utility import filter_movies_by_genre, sort_movies_by_rating, sort_movies_by_date
 
 print("Let's find a movie to watch!")
 
