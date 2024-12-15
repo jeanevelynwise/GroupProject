@@ -1,56 +1,23 @@
 #Main.py
 
-import csv
-from Utility import filter_movies_by_genre, sort_movies_by_rating, sort_movies_by_date
+from Utility import movie_data, filter_movies_by_genre, sort_movies_by_rating, sort_movies_by_date, display_movies
 
 print("Let's find a movie to watch!")
-
-def display_menu():
-    print("Please choose a genre:")
-    print("1. Action")
-    print("2. Comedy")
-    print("3. Drama")
-    print("4. Mystery/Thriller")
-    print("5. Horror")
-
-def display_sort_menu():
-    print("Please choose an option:")
-    print("1. Top Rated Movies")
-    print("2. Most Recent Movies")
-
-def movie_data():
-    movies = []
-    with open('Data_RottenTomatoes_2024Dec11.csv', newline='', encoding='utf-8') as file:
-        reader = csv.reader(file)
-        for row in reader:
-            movie_name = row[0]
-            genre = row[1]
-            release_date = row[2]
-            rating = row[3]
-            tomatometer = row[4]
-            where_to_watch = row[5]
-            movie = [movie_name, genre, release_date, rating, tomatometer, where_to_watch]
-            movies.append(movie)
-    return movies
-
-def display_movies(movies):
-    for movie in movies:
-        print("Movie Name: " + movie[0])
-        print("Genre: " + movie[1])
-        print("Release Date: " + movie[2])
-        print("Rating: " + movie[3])
-        print("Tomatometer Score: " + str(movie[4]) + "%")
-        print("Where to Watch: " + movie[5])
-        print("-" * 40)
 
 #Load movie data from the CSV file
 movies = movie_data()
 
 while True:
-    display_menu()
+    #Display Genre Menu
+    print("\nPlease choose a genre:")
+    print("1. Action")
+    print("2. Comedy")
+    print("3. Drama")
+    print("4. Mystery/Thriller")
+    print("5. Horror")
     genre_choice = input("Enter the number of your choice: ")
 
-    # Handle invalid genre input
+    #Handle invalid genre input and map the user's choice to the genre
     if genre_choice == '1':
         selected_genre = 'Action'
     elif genre_choice == '2':
@@ -65,25 +32,29 @@ while True:
         print("Invalid choice. Please try again.")
         continue
 
-    # Filter movies by the user-selected genre
+    #Filter movies by the user-selected genre
     filtered_movies = filter_movies_by_genre(movies, selected_genre)
 
     if len(filtered_movies) == 0:
         print("No movies found for genre: " + selected_genre + ". Try another genre.")
         continue
 
-    display_sort_menu()
-    sort_choice = input("Enter the number corresponding to your sorting choice: ")
+    #Display Sort Option Menu
+    print("\nPlease choose an option:")
+    print("1. Top Rated Movies")
+    print("2. Most Recent Movies")
+    sort_choice = input("Enter the number of your choice: ")
 
-    if sort_choice == '1':  #Sort by top-rated
+    #Sort based on the user's choice
+    if sort_choice == '1':  # Sort by top-rated
         sorted_movies = sort_movies_by_rating(filtered_movies)
-    elif sort_choice == '2':  #Sort by most recent release date
+    elif sort_choice == '2':  # Sort by most recent release date
         sorted_movies = sort_movies_by_date(filtered_movies)
     else:
         print("Invalid choice! Please try again.")
         continue
 
-    #Display the top two movies
+    #Display the top two movies based on user-selected Sort Option
     print("\nHere are the top two movies based on your selection:")
     display_movies(sorted_movies[:2])
 
